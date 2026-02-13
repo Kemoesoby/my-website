@@ -153,7 +153,7 @@
   </section>
 
   <section id="planner">
-    <h2>My Life Organizer</h2>
+    <h2>My Planner</h2>
     <div class="planner-container">
       <h3>Stay organized and productive!</h3>
       
@@ -269,16 +269,27 @@
       const taskList = document.getElementById('task-list');
       
       if (taskInput.value.trim() === '') {
-        alert('Please enter a task!');
+        taskInput.style.borderColor = '#f44336';
+        taskInput.placeholder = 'Please enter a task!';
+        setTimeout(() => {
+          taskInput.style.borderColor = '#ddd';
+          taskInput.placeholder = 'New task...';
+        }, 2000);
         return;
       }
       
       const newTask = document.createElement('div');
       newTask.className = `task-item priority-${prioritySelect.value}`;
-      newTask.innerHTML = `
-        <input type="checkbox" onchange="toggleTask(this)" />
-        <span>${taskInput.value}</span>
-      `;
+      
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.onchange = function() { toggleTask(this); };
+      
+      const taskText = document.createElement('span');
+      taskText.textContent = taskInput.value;
+      
+      newTask.appendChild(checkbox);
+      newTask.appendChild(taskText);
       
       taskList.appendChild(newTask);
       taskInput.value = '';
